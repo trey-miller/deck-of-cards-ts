@@ -1,0 +1,15 @@
+.root {
+	background-color: white;
+	border-radius: .05em;
+	color: black;
+	// fiddley sizing based on font, since we are using unicode cards
+	// Hopefully it's good on all platforms...
+	font-family: Arial, Helvetica, sans-serif;
+    padding: 0 .02em;
+    line-height: 1;
+    display: table;
+}
+
+.inner {
+    display: table-cell;
+}
