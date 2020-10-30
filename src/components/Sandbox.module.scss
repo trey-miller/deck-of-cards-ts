@@ -1,0 +1,50 @@
+$card-font-size: 8.5vw;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 1rem;
+
+	button {
+		padding: 0.5em 1em;
+		border-radius: 3px;
+		margin: 0.5em;
+	}
+}
+
+.activeCards {
+	width: 70vw;
+	line-height: 1;
+	> div {
+		width: 49%;
+		display: inline-block;
+	}
+}
+.drawnCard {
+	font-size: $card-font-size * 1.5;
+	display: inline-block;
+	margin: 0.1em;
+}
+
+.cardList {
+	font-size: $card-font-size;
+	margin: 0;
+	padding: 0;
+	flex-wrap: wrap;
+	> br {
+		height: 0;
+	}
+	> li {
+		list-style: none;
+		display: inline-block;
+		cursor: pointer;
+		margin: 0 2px;
+	}
+}
+
+.card {
+	&.selected {
+		text-shadow: 0 0 1px currentColor;
+	}
+}

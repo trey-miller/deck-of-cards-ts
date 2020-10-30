@@ -1,0 +1,94 @@
+.root {
+	font-size: 1rem;
+	padding: 0 1rem;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-bottom: 0.5rem;
+	margin-top: 0;
+	padding: 0 0.5rem;
+}
+
+.deckContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.bet {
+	border: 1px solid black;
+	padding: 1rem;
+	input {
+		width: 8ch;
+		padding: 0.5em;
+		border-radius: 0.2em;
+	}
+}
+
+.money {
+	color: green;
+	text-shadow: 1px 1px 1px lightgreen;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.deck {
+	cursor: pointer;
+	font-size: 5rem;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	line-height: 0;
+	margin: 0.2rem;
+}
+
+.betChoices {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	color: #222;
+	padding: 0;
+
+	> li {
+		list-style: none;
+		padding: 0.5rem;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+		flex: 1 1 auto;
+		cursor: pointer;
+		background-color: #eee;
+		text-align: center;
+	}
+
+	.selected.red {
+		background-color: red;
+		color: #eee;
+	}
+
+	.selected.black {
+		background-color: black;
+		color: #eee;
+	}
+
+	&.cardListContainer {
+		margin: 0;
+	}
+	.cardContainer {
+		//display: inline-block;
+		margin: 0;
+		font-size: (85vw / 13);
+		padding: 0.1em;
+		line-height: 0;
+		flex: 1 1 auto;
+		background-color: transparent;
+	}
+}
+
+.red {
+	color: red;
+}
+
+.black {
+	color: black;
+}
