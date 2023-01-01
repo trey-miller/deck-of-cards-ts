@@ -40,6 +40,7 @@
 	font-size: 5rem;
 	-moz-user-select: none;
 	-webkit-user-select: none;
+	user-select: none;
 	line-height: 0;
 	margin: 0.2rem;
 }
@@ -59,6 +60,10 @@
 		cursor: pointer;
 		background-color: #eee;
 		text-align: center;
+	}
+	.selected {
+		box-shadow: 0 0 10px  #eee;
+		z-index: 10;
 	}
 
 	.selected.red {

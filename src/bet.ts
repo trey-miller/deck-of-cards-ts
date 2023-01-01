@@ -1,0 +1,90 @@
+import { CardColor, cardID, CardSuit, CardValue } from "./cards/Card";
+
+export enum BetType {
+    Card = "Card",
+    Color = "Color",
+    Suit = "Suit",
+    Value = "Value",
+}
+
+export const betTypeValues = {
+    [BetType.Card]: [
+        cardID(CardValue.Ace, CardSuit.Clubs),
+        cardID(CardValue.Two, CardSuit.Clubs),
+        cardID(CardValue.Three, CardSuit.Clubs),
+        cardID(CardValue.Four, CardSuit.Clubs),
+        cardID(CardValue.Five, CardSuit.Clubs),
+        cardID(CardValue.Six, CardSuit.Clubs),
+        cardID(CardValue.Seven, CardSuit.Clubs),
+        cardID(CardValue.Eight, CardSuit.Clubs),
+        cardID(CardValue.Nine, CardSuit.Clubs),
+        cardID(CardValue.Ten, CardSuit.Clubs),
+        cardID(CardValue.Jack, CardSuit.Clubs),
+        cardID(CardValue.Queen, CardSuit.Clubs),
+        cardID(CardValue.King, CardSuit.Clubs),
+
+        cardID(CardValue.Ace, CardSuit.Diamonds),
+        cardID(CardValue.Two, CardSuit.Diamonds),
+        cardID(CardValue.Three, CardSuit.Diamonds),
+        cardID(CardValue.Four, CardSuit.Diamonds),
+        cardID(CardValue.Five, CardSuit.Diamonds),
+        cardID(CardValue.Six, CardSuit.Diamonds),
+        cardID(CardValue.Seven, CardSuit.Diamonds),
+        cardID(CardValue.Eight, CardSuit.Diamonds),
+        cardID(CardValue.Nine, CardSuit.Diamonds),
+        cardID(CardValue.Ten, CardSuit.Diamonds),
+        cardID(CardValue.Jack, CardSuit.Diamonds),
+        cardID(CardValue.Queen, CardSuit.Diamonds),
+        cardID(CardValue.King, CardSuit.Diamonds),
+
+        cardID(CardValue.Ace, CardSuit.Hearts),
+        cardID(CardValue.Two, CardSuit.Hearts),
+        cardID(CardValue.Three, CardSuit.Hearts),
+        cardID(CardValue.Four, CardSuit.Hearts),
+        cardID(CardValue.Five, CardSuit.Hearts),
+        cardID(CardValue.Six, CardSuit.Hearts),
+        cardID(CardValue.Seven, CardSuit.Hearts),
+        cardID(CardValue.Eight, CardSuit.Hearts),
+        cardID(CardValue.Nine, CardSuit.Hearts),
+        cardID(CardValue.Ten, CardSuit.Hearts),
+        cardID(CardValue.Jack, CardSuit.Hearts),
+        cardID(CardValue.Queen, CardSuit.Hearts),
+        cardID(CardValue.King, CardSuit.Hearts),
+
+        cardID(CardValue.Ace, CardSuit.Spades),
+        cardID(CardValue.Two, CardSuit.Spades),
+        cardID(CardValue.Three, CardSuit.Spades),
+        cardID(CardValue.Four, CardSuit.Spades),
+        cardID(CardValue.Five, CardSuit.Spades),
+        cardID(CardValue.Six, CardSuit.Spades),
+        cardID(CardValue.Seven, CardSuit.Spades),
+        cardID(CardValue.Eight, CardSuit.Spades),
+        cardID(CardValue.Nine, CardSuit.Spades),
+        cardID(CardValue.Ten, CardSuit.Spades),
+        cardID(CardValue.Jack, CardSuit.Spades),
+        cardID(CardValue.Queen, CardSuit.Spades),
+        cardID(CardValue.King, CardSuit.Spades),
+    ] as const,
+
+    [BetType.Color]: [CardColor.Black, CardColor.Red] as const,
+
+    [BetType.Suit]: [CardSuit.Clubs, CardSuit.Diamonds, CardSuit.Hearts, CardSuit.Spades] as const,
+
+    [BetType.Value]: [
+        CardValue.Ace,
+        CardValue.Two,
+        CardValue.Three,
+        CardValue.Four,
+        CardValue.Five,
+        CardValue.Six,
+        CardValue.Seven,
+        CardValue.Eight,
+        CardValue.Nine,
+        CardValue.Ten,
+        CardValue.Jack,
+        CardValue.Queen,
+        CardValue.King,
+    ] as const,
+};
+
+export type BetTypeValue<B extends BetType = BetType> = typeof betTypeValues[B][number];
