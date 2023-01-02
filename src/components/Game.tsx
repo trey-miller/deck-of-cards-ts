@@ -1,7 +1,7 @@
 import { chunk } from "lodash";
 import classNames from "classnames";
-import React, { ReactNode, useRef } from "react";
-import { BetTypeValue } from "../bet";
+import React, { ReactNode } from "react";
+import { BetTypeValue, getBetType, getWinMultiplier } from "../bet";
 import { Card, CardColor, CardSuit, CardValue } from "../cards/Card";
 import { Deck } from "../cards/Deck";
 import { useGameState } from "../gameContext";
@@ -12,7 +12,9 @@ import styles from "./Game.module.scss";
 const BET_CARDS: Readonly<Readonly<Card[]>[]> = chunk(new Deck().cards, 13);
 
 export const Game = (): JSX.Element => {
-    const deck = useRef(new Deck());
+    const [state, dispatch] = useGameState();
+
+    const winMultiplier = getWinMultiplier(getBetType(state.bet), state.houseEdge);
 
     return (
         <div className={styles.root}>
@@ -28,14 +30,29 @@ export const Game = (): JSX.Element => {
             <div className={styles.row}>
                 <div>
                     <h3>Your Money</h3>
-                    <div className={styles.money}>$100</div>
+                    <div className={styles.money}>${state.money}</div>
                 </div>
+                {state.lastDrawnCard && (
+                    <div className={styles.deckContainer}>
+                        Last draw:
+                        <div className={styles.deck}>
+                            <CardElem card={state.lastDrawnCard} />
+                        </div>
+                        You {state.lastWin > 0 ? `won $${state.lastWin}` : "lost"}
+                    </div>
+                )}
                 <div className={styles.deckContainer}>
                     Click to draw
-                    <div className={styles.deck}>
+                    <div
+                        className={styles.deck}
+                        onClick={() => {
+                            console.log("onClick");
+                            dispatch({ type: "startDraw" });
+                        }}
+                    >
                         <CardElem card={null} faceDown={true} />
                     </div>
-                    Cards left: 52
+                    Cards left: {state.cards.length}
                 </div>
             </div>
             <div className={styles.row}>
@@ -43,15 +60,21 @@ export const Game = (): JSX.Element => {
                     <div className={styles.row}>
                         <div>
                             Bet Amount:&nbsp;
-                            <input type="number" name="bet-amount" value={10} min="1" max="1000" />
+                            <input
+                                type="number"
+                                name="bet-amount"
+                                value={state.betAmount}
+                                onChange={e => dispatch({ type: "setBetAmount", betAmount: e.target.valueAsNumber })}
+                                min="1"
+                                max={state.money}
+                            />
                         </div>
                         <div>
                             You're betting&nbsp;
                             <span>
-                                $10 on
-                                <span className={styles.red}> {"\u2665"} Hearts</span>
+                                ${state.betAmount} on <span>{state.bet}</span>
                             </span>
-                            <div>Win gains $30</div>
+                            <div>Payout of ${state.betAmount * winMultiplier}</div>
                         </div>
                     </div>
                     <ul className={`${styles.row} ${styles.betChoices}`}>
@@ -64,16 +87,16 @@ export const Game = (): JSX.Element => {
                     </ul>
                     <ul className={`${styles.row} ${styles.betChoices}`}>
                         <BetChoice bet={CardSuit.Clubs} color={CardColor.Black}>
-                            {"\u2660"}
+                            {"\u2663"}
                         </BetChoice>
                         <BetChoice bet={CardSuit.Diamonds} color={CardColor.Red}>
-                            {"\u2665"}
-                        </BetChoice>
-                        <BetChoice bet={CardSuit.Hearts} color={CardColor.Red}>
                             {"\u2666"}
                         </BetChoice>
+                        <BetChoice bet={CardSuit.Hearts} color={CardColor.Red}>
+                            {"\u2665"}
+                        </BetChoice>
                         <BetChoice bet={CardSuit.Spades} color={CardColor.Black}>
-                            {"\u2663"}
+                            {"\u2660"}
                         </BetChoice>
                     </ul>
                     <ul className={`${styles.row} ${styles.betChoices}`}>

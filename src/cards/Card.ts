@@ -26,9 +26,33 @@ export enum CardColor {
     Black = "Black",
 }
 
+export const isCardValue = (n: unknown): n is CardValue => Object.values(CardValue).includes(n as CardValue);
+
+export const isCardSuit = (n: unknown): n is CardSuit => Object.values(CardSuit).includes(n as CardSuit);
+
+export const isCardColor = (n: unknown): n is CardColor => Object.values(CardColor).includes(n as CardColor);
+
 export const cardID = <V extends CardValue, S extends CardSuit>(value: V, suit: S) => `${value}:${suit}` as const;
 
 export type CardID<V extends CardValue = CardValue, S extends CardSuit = CardSuit> = ReturnType<typeof cardID<V, S>>;
+
+/** splits the cardID into parts, or returns null if input is not a real ID */
+export const splitCardID = <V extends CardValue = CardValue, S extends CardSuit = CardSuit>(id: CardID<V, S>) => {
+    if (!id) {
+        return null;
+    }
+    const [valueStr, suit] = id.split(":");
+    const value = Number.parseInt(valueStr);
+    if (isCardValue(value) && isCardSuit(suit)) {
+        return { value, suit };
+    }
+    return null;
+};
+
+export const isCardID = (n: unknown): n is CardID => {
+    const split = typeof n === "string" && splitCardID(n as CardID);
+    return Boolean(split);
+};
 
 export class Card<V extends CardValue = CardValue, S extends CardSuit = CardSuit> {
     readonly value: V;

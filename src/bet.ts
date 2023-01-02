@@ -1,4 +1,14 @@
-import { CardColor, cardID, CardSuit, CardValue } from "./cards/Card";
+import {
+    Card,
+    CardColor,
+    cardID,
+    CardSuit,
+    CardValue,
+    isCardColor,
+    isCardID,
+    isCardSuit,
+    isCardValue,
+} from "./cards/Card";
 
 export enum BetType {
     Card = "Card",
@@ -88,3 +98,46 @@ export const betTypeValues = {
 };
 
 export type BetTypeValue<B extends BetType = BetType> = typeof betTypeValues[B][number];
+
+export const getBetType = (value: BetTypeValue): BetType => {
+    if (typeof value === "string") {
+        if (isCardColor(value)) {
+            return BetType.Color;
+        }
+        if (isCardSuit(value)) {
+            return BetType.Suit;
+        }
+        if (isCardID(value)) {
+            return BetType.Card;
+        }
+    }
+    if (typeof value === "number") {
+        if (isCardValue(value)) {
+            return BetType.Value;
+        }
+    }
+    throw new Error(`invalid BetTypeValue: ${value}`);
+};
+
+export const isMatch = (bet: BetTypeValue, card: Card): boolean => {
+    const betType = getBetType(bet);
+    switch (betType) {
+        case BetType.Card:
+            return isCardID(bet) && card.id === bet;
+        case BetType.Color:
+            return isCardColor(bet) && card.color === bet;
+        case BetType.Suit:
+            return isCardSuit(bet) && card.suit === bet;
+        case BetType.Value:
+            return isCardValue(bet) && card.value === bet;
+        default:
+            throw new Error(`isMatch: invalid bet type ${betType}`);
+    }
+};
+
+/** the multiplier of the bet, minus house edge. This assumes the bet is not also returned. */
+export const getWinMultiplier = (betType: BetType, houseEdge: number): number => {
+    const numChoices = betTypeValues[betType].length;
+    const weightedNumChoices = numChoices - numChoices * houseEdge; // if 5% house edge, "decrease odds by 5%"
+    return weightedNumChoices;
+};
